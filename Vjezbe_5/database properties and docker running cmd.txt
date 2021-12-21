@@ -1,0 +1,59 @@
+
+*******************************************************************************************************
+//after running docker desktop run the bellow command to create the image that will make the database you have specified in your web application and specified in the aplication.properties file (Spring Boot for ex.) using Jpa and Postgres database properties.
+
+
+docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 5432:5432 postgres:10.5
+
+
+
+********************************************************************************************************
+aplication.properties (postgres version):
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/{db_name: default name is postgres}
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults=false
+
+
+
+********************************************************************************************************
+aplication.properties (MySQL version - using workbench and mysql connector in the Maven dependency):
+
+spring.datasource.url=jdbc:mysql://localhost:3306/{db_name}?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+spring.datasource.username=root
+spring.datasource.password=root
+
+#Hibernate
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+
+#Hibernate auto ddl
+spring.jpa.hibernate.ddl-auto=none (or update, create, create-drop, validate)
+
+
+logging.level.org.hibernate.SQL=DEBUG
+
+
+////////////////////////////////////
+Dependencies:
+
+//MYSQL//
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
+-------------------------------------------------------
+
+//POSTGRESQL//
+<dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<scope>runtime</scope>
+</dependency>
